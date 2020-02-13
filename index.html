@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .hide{
+            display: none;
+        }
+
+        .error{
+            color: red;
+            font-size: 0.8em;
+            font-family: sans-serif;
+            font-style: italic;
+        }
+
+        .input{
+            border-color: #ddd;
+            width:400px;
+            display: block;
+            font-size:1.5em;
+        }
+    </style>
+</head>
+<body>
+    <form action="" name="myForm">
+        <label for="email">Email:</label><input type="text" name="email" />
+        <span class="error hide"></span> <br>
+        <label for="password">Password:</label> <input type="text" name="password" />
+        <span class="error hide"></span><br>
+        <label for="username">Username:</label> <input type="text" name="username" />
+        <span class="error hide"></span> <br>
+        <input type="submit" value="Sign Up" />
+    </form>
+
+    <script>
+        const myForm=document.querySelector("form");
+        const inputs=document.querySelectorAll("input");
+        const error=document.querySelectorAll(".error");
+        const required=["email","username"];
+
+        myForm.addEventListener("submit",validation);
+        function validation(e){
+           let data={}; // create empty object array
+            e.preventDefault(); // prevents defaults like post and gt from being actioned.
+            
+            // loop through all the input elements.
+            inputs.forEach(function(el){
+                let tempName=el.getAttribute("name");
+                console.log(tempName);
+
+                if(tempName !=null){
+                    el.style.borderColor="#ddd";
+
+                    if(el.value.length==0 && required.includes(tempName)){
+                        addError(el,"required field",tempName);
+                    }
+
+                    data[tempName]=el.value; // get information and value from the values
+                }
+            })
+
+            console.log(data); // build an object with element contents.
+        }
+
+        function addError(el, mes,fieldName){
+            let temp=el.nextElementSibling; // go to the next element
+            temp.classList.remove("hide");
+            temp.textContent=fieldName.toUpperCase()+" "+ mes; // validates the required field
+            el.style.borderColor="red";
+            el.focus();
+        }
+
+    </script>
+</body>
+</html>
